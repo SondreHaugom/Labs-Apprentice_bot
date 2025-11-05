@@ -28,7 +28,7 @@ const streamText = (element, text, speed = 2) => {
 };
 
 // Ny funksjon for å streame markdown-formatert tekst
-const streamMarkdown = (element, markdownText, speed = 20) => {
+const streamMarkdown = (element, markdownText, speed = 5) => {
     // Konverter markdown til HTML først
     const htmlContent = marked(markdownText);
     let index = 0;
