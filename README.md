@@ -3,6 +3,10 @@
 En læringsfokusert chatbot for IT-Utviklerfaget, bygget med OpenAI og SvelteKit.
 
 ---
+[![Svelte](https://img.shields.io/badge/Svelte-5%2B-ff3e00?logo=svelte)](https://svelte.dev)
+[![SvelteKit](https://img.shields.io/badge/SvelteKit-2%2B-ff3e00?logo=svelte)](https://kit.svelte.dev)
+[![Status](https://img.shields.io/badge/status-under%20arbeid-yellow)](#)
+[![License](https://img.shields.io/badge/license‑MIT‑green)](https://opensource.org/licenses/MIT)
 
 ## 📘 Innholdsfortegnelse
 
