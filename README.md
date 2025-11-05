@@ -222,25 +222,3 @@ The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
 ```
 
----
-
-## 🎉 Takk til
-
-- **OpenAI** for deres fantastiske API
-- **Svelte-teamet** for det moderne web-rammeverket  
-- **Vite** for lynrask utvikling
-
----
-
-*Made with ❤️ by developers, for developers*
-
----
-
-**� Nyttige lenker:**
-- [SvelteKit Dokumentasjon](https://kit.svelte.dev/)
-- [OpenAI API Dokumentasjon](https://platform.openai.com/docs)
-- [Markdown Guide](https://www.markdownguide.org/)
-
----
-
-> **💡 Tips:** For best resultat, gi botten tydelige spørsmål og eksperimenter med ulike formateringstyper!
