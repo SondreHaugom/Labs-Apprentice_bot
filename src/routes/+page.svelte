@@ -50,13 +50,13 @@ const streamMarkdown = (element, markdownText, speed = 5) => {
             element.innerHTML = currentContent;
             index++;
         }
-        
+        // Sjekk om vi har nådd slutten av innholdet
         if (index >= htmlContent.length) {
             // Sørg for at alt innhold vises til slutt
             element.innerHTML = htmlContent;
             clearInterval(interval);
         }
-        
+        // Rull chatboksen til bunnen
         chatbox.scrollTop = chatbox.scrollHeight;
     }, speed);
 };
