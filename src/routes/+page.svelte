@@ -68,15 +68,24 @@ const createChatBubble = (message, className, isStreaming = false) => {
 
     let content = '';
     if (className === 'chat_incoming') {
-        content = `<div class="bot_message">${marked(message)}</div>`;
+        content = `<div class="bot_message"></div>`;
     } else {
-        content = `<div class="user_message">${marked(message)}</div>`;
+        content = `<div class="user_message"></div>`;
     }
-
 
     chatli.innerHTML = content;
     chatbox.appendChild(chatli);
-    chatbox.scrollTop = chatbox.scrollHeight;
+
+
+    const messageDiv = chatli.querySelector(className === 'chat_incoming' ? '.bot_message' : '.user_message');
+
+    if (isStreaming && className === 'chat_incoming') {
+        // Bruk streaming-funksjonen for bot-meldinger
+        streamMarkdown(messageDiv, message);
+    } else {
+        // Sett inn hele meldingen på en gang
+        messageDiv.innerHTML = marked(message);
+    }
 };
 
 // funksjon for å sende melding
