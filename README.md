@@ -39,7 +39,7 @@ En moderne chatbot bygget med SvelteKit og OpenAI, med støtte for markdown-form
 
 ## 📖 Om prosjektet
 
-Utvikler Bot er en avansert chatbot bygget med OpenAI sitt Responses API og SvelteKit. Botten gir strukturerte, markdown-formaterte svar som gjør det enkelt å lese kode, dokumentasjon og forklaringer. Prosjektet demonstrerer moderne web-utvikling med focus på brukeropplevelse og læring.
+FagAssistenten er en avansert chatbot bygget med OpenAI sitt Responses API og SvelteKit. Botten gir strukturerte, markdown-formaterte svar som gjør det enkelt å lese kode, dokumentasjon og forklaringer. Prosjektet demonstrerer moderne web-utvikling med focus på brukeropplevelse og læring.
 
 ---
 
@@ -209,7 +209,7 @@ Dette prosjektet er lisensiert under MIT-lisensen - se [LICENSE](LICENSE) filen 
 ```
 MIT License
 
-Copyright (c) 2025 Utvikler Bot
+Copyright (c) 2025 FagAssistenten
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
