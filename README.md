@@ -1,4 +1,4 @@
-# 🤖 Utvikler Bot – SvelteKit Chatbot
+# 🤖 FagAssistenten – SvelteKit Chatbot
 
 En moderne chatbot bygget med SvelteKit og OpenAI, med støtte for markdown-formaterte svar, kodeeksempler, overskrifter og avsnitt.
 
