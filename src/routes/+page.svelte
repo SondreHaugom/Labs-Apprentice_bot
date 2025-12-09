@@ -373,13 +373,14 @@ onMount(() => {
     max-height: 100%;
 }
 h1 {
-    color: #ffffff;
+    flex: 1;
     text-align: center;
-    margin: 1em auto;
-    font-size: 2.5em;
-    font-weight: 400;
-    position: relative;
-    display: inline-block;
+    margin: 1em 0;
+    font-size: 2.4em;
+    font-weight: 300;
+    letter-spacing: 1.5px;
+    color: #e8e8e8;
+    text-shadow: 0 0 6px rgba(255,255,255,0.12);
 }
 
     header {
