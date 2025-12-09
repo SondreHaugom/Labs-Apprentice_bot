@@ -100,8 +100,8 @@ Konfigurasjonsfiler:
 ### 1️⃣ Kloning av repository
 
 ```bash
-git clone https://github.com/ditt-brukernavn/utvikler-bot.git
-cd utvikler-bot
+git clone https://github.com/ditt-brukernavn/FagAssistenten.git
+cd FagAssistenten
 ```
 
 ### 2️⃣ Installer avhengigheter
