@@ -2,7 +2,7 @@
 // importerer onMount fra svelte
 import { onMount } from 'svelte';
 import { marked } from 'marked';
-
+import { selectedAgent } from '$lib/agentLogic.js';
 // deklarerer globale variabler
 let chatbox, userInput, sendButton, resetButton, toggleMenu;
 
@@ -95,52 +95,18 @@ function sendMessage() {
     const user_message = userInput.value.trim();
     if (user_message === '') return;
     createChatBubble(user_message, 'chat_outgoing');
+    createChatBubble('Genererer respons...', 'chat_incoming');
 
-    selectedAgent(user_message).then((bot_response) => {
+    // Hent valgt agent fra select-elementet
+    const selectedAgentType = toggleMenu.value;
+    
+    selectedAgent(user_message, selectedAgentType).then((bot_response) => {
         createChatBubble(bot_response, 'chat_incoming', true);
     });
     userInput.value = '';
 }
 
-const selectedAgent = async (user_message, typingIndex) => {
-    let response;
-    if (toggleMenu.value === 'openai') {
-        console.log('Valgt agent er openai');
-        response = await fetch('/openai', {
-            method: 'POST',
-            headers: {
-                'content-type': 'application/json'
-            },
-            body:JSON.stringify({ message: user_message, agent: 'openai'})          
-        });
-        const payload = await response.json();
 
-        const raw = payload.response ??
-        // eller fallback til choices-strukturen
-            payload.choices?.[0]?.message?.content ?? '';
-
-        return raw || 'Beklager, jeg har ingen svar.';
-
-    } else if (toggleMenu.value === 'codeGeneration') {
-        console.log('Valgt agent er codeGeneration');
-        let response;
-        response = await fetch('/codeGeneration', {
-            method: 'POST',
-            headers: {
-                'content-type': 'application/json'
-            },
-            body:JSON.stringify({ message: user_message, agent: 'codeGeneration'})
-        });
-        const payload = await response.json();
-
-        const raw = payload.response ??
-        // eller fallback til choices-strukturen
-            payload.choices?.[0]?.message?.content ?? '';
-        
-        return raw || 'Beklager, jeg har ingen svar.';
-    }
-    
-}
 
 
 // onMount for å initialisere elementer og legge til event-lyttere
@@ -544,12 +510,13 @@ h1 {
     .agenst_container {
         position: absolute;
         top: 75%;
+        left: 25%;
         transform: translateY(-50%);
     }
     .agent_btn {
-        height: 50px;
-        width: 120px;
-        border-radius: 10px;
+        height: 30px;
+        width: 140px;
+        border-radius: 5px;
         border: none;
         box-shadow:
         0 2px 4px rgba(44, 44, 44, 0.25),
@@ -564,4 +531,11 @@ h1 {
     .agent_btn:hover {
         background-color: #666;
     }
+
+    .agent_btn:open {
+        background-color: #333;
+        color: #fff;
+        border-radius: 10px;
+    }
+
 </style>
