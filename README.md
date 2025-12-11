@@ -28,18 +28,29 @@ En moderne chatbot bygget med SvelteKit og OpenAI, med støtte for markdown-form
 ## 🎯 Funksjoner
 
 - ✨ **Moderne chatgrensesnitt** med Svelte
+- 🤖 **Multi-agent system** med agent-selektor
+  - **GPT-5.1** (OpenAI) - Generell AI-assistent
+  - **Code Generation** - Spesialist på kodeeksempler og programmering
 - 📝 **Markdown-formaterte svar** med overskrifter, avsnitt og lister
 - 💻 **Kodeblokker** med syntax highlighting
 - ⚡ **Streaming av bot-svar** for bedre brukeropplevelse
-- 🔗 **OpenAI-integrasjon** med Responses API
+- � **Loading-indikator** som viser "Genererer respons..."
 - 🎨 **Responsivt design** med gradient-bakgrunner
-- 🔄 **Samtalekontekst** som bevares gjennom samtalen
+- � **Modulær arkitektur** med separert agent-logikk
+- ⌨️ **Tastaturnavigasjon** (Enter for å sende, Shift+Enter for ny linje)
+- 🔄 **Nullstill chat** funksjonalitet
 
 ---
 
 ## 📖 Om prosjektet
 
-FagAssistenten er en avansert chatbot bygget med OpenAI sitt Responses API og SvelteKit. Botten gir strukturerte, markdown-formaterte svar som gjør det enkelt å lese kode, dokumentasjon og forklaringer. Prosjektet demonstrerer moderne web-utvikling med focus på brukeropplevelse og læring.
+FagAssistenten er en avansert chatbot med multi-agent arkitektur bygget med SvelteKit. Systemet lar brukere velge mellom forskjellige AI-agenter optimalisert for ulike oppgaver - fra generell assistanse til spesialisert kodegenerering. Prosjektet demonstrerer moderne web-utvikling med fokus på modulær arkitektur, brukeropplevelse og læring.
+
+### 🤖 Agent-system
+
+- **OpenAI Agent (GPT-5.1)**: Generell AI-assistent for diverse spørsmål og oppgaver
+- **Code Generation Agent**: Spesialist på kodeeksempler, programmering og teknisk dokumentasjon
+- **Utvidbar arkitektur**: Enkelt å legge til nye agenter
 
 ---
 
@@ -48,16 +59,24 @@ FagAssistenten er en avansert chatbot bygget med OpenAI sitt Responses API og Sv
 ```
 src/
 ├── routes/
-│   ├── +page.svelte         # 💬 Hovedchat-grensesnitt
-│   └── server/
-│       └── +server.js       # 🔧 API-endepunkt for OpenAI
+│   ├── +page.svelte         # 💬 Hovedchat-grensesnitt med agent-selektor
+│   ├── +layout.svelte       # 🎨 Layout-komponent
+│   ├── openai/
+│   │   └── +server.js       # 🤖 OpenAI agent endpoint
+│   └── codeGeneration/
+│       └── +server.js       # � Code Generation agent endpoint
 ├── lib/
+│   ├── agentLogic.js        # 🧠 Multi-agent routing logikk
 │   ├── index.js            # 📚 Delte moduler
+│   ├── components/
+│   │   └── agentComponents.svelte  # 🔧 Agent-komponenter (deprecated)
 │   └── assets/             # 🎨 Statiske ressurser
 └── app.html                # 🏠 Svelte hoved-HTML
 
 static/
-└── robots.txt              # 🤖 SEO-konfigurasjon
+├── robots.txt              # 🤖 SEO-konfigurasjon
+└── bilder/                 # 🖼️ Ikoner og bilder
+    └── chat-notification_*.png
 
 Konfigurasjonsfiler:
 ├── package.json            # 📦 Prosjektavhengigheter
@@ -75,17 +94,19 @@ Konfigurasjonsfiler:
 | `$env/dynamic/private`       | 🔐 Henter miljøvariabler (API-nøkler) som ikke skal være synlige for klienten |
 | `@sveltejs/kit` (`json`)     | 📤 Returnerer JSON-responser fra server-endepunkter på standardisert måte |
 | `path`                       | 📁 Node.js-modul for håndtering av filstier på serveren               |
-| `openai`                     | 🤖 OpenAI-klient for kommunikasjon med Responses API og AI-generering |
+| `openai`                     | 🤖 OpenAI-klient for kommunikasjon med API og AI-generering |
 | `marked`                     | 📝 Konverterer markdown til HTML for formaterte chat-meldinger        |
+| `agentLogic.js`              | 🧠 Sentral routing-logikk for multi-agent systemet                    |
 
 ### Frontend-teknologier
 - **SvelteKit**: Moderne web-framework med server-side rendering
 - **Vite**: Rask build-tool og dev-server
-- **CSS3**: Custom styling med gradients og animasjoner
+- **CSS3**: Custom styling med gradients, animasjoner og responsive design
 
 ### Backend-teknologier  
 - **Node.js**: Server-runtime
-- **OpenAI Responses API**: AI-modell for chatbot-funksjonalitet
+- **OpenAI API**: AI-modell for chatbot-funksjonalitet
+- **Multi-agent arkitektur**: Modulær struktur for ulike AI-spesialiseringer
 
 ---
 
@@ -116,8 +137,9 @@ Lag en `.env`-fil i prosjektroten:
 
 ```env
 OPENAI_API_KEY=din_openai_api_nokkel
-VECTOR_STORE_ID=din_vector_store_id  
-INSTRUCTIONS=instruksjoner_til_botten
+# Tilleggskonfigurationer for agenter (valgfritt)
+# VECTOR_STORE_ID=din_vector_store_id  
+# INSTRUCTIONS=instruksjoner_til_botten
 ```
 
 ### 4️⃣ Start utviklingsserver
@@ -139,10 +161,25 @@ npm run preview
 
 ## 🚀 Bruk
 
+### 🎯 Velge Agent
+1. **Bruk dropdown-menyen** øverst til venstre for å velge agent:
+   - **GPT-5.1**: For generelle spørsmål og samtaler
+   - **Code Generation**: For koding og tekniske spørsmål
+
+### 💬 Chat-funksjoner
 1. **Skriv meldinger** i chat-grensesnittet
-2. **Motta formaterte svar** med overskrifter, kodeblokker og lister  
-3. **Streaming-effekt** viser svarene i sanntid
-4. **Markdown-støtte** gjør svarene lettere å lese
+2. **Tastatur shortcuts**:
+   - `Enter` - Send melding
+   - `Shift + Enter` - Ny linje
+3. **Motta formaterte svar** med overskrifter, kodeblokker og lister  
+4. **Loading-indikator** viser "🤔 Genererer respons..." mens AI tenker
+5. **Streaming-effekt** viser svarene i sanntid
+6. **Nullstill chat** med knappen øverst til høyre
+
+### 🔄 Agent-switching
+- Skift agent når som helst under samtalen
+- Hver agent har sin egen spesialisering
+- Konsistent grensesnitt på tvers av agenter
 
 ### Eksempel på bot-svar:
 
