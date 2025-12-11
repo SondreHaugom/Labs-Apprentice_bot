@@ -1,7 +1,7 @@
 export const selectedAgent = async (user_message, agentType) => {
     let response;
     if (agentType === 'openai') {
-        
+
         console.log('Using OpenAI agent');
         response = await fetch('/openai', {
             method: 'POST',
@@ -35,7 +35,6 @@ export const selectedAgent = async (user_message, agentType) => {
         // eller fallback til choices-strukturen
             payload.choices?.[0]?.message?.content ?? '';
         return raw || 'Beklager, jeg har ingen svar.'; 
-
-            }
-};
+    }
+}
     
