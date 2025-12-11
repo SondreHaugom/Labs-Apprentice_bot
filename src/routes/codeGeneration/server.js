@@ -1,8 +1,8 @@
-// henter importeringer av nødvendige moduler
 import {env} from '$env/dynamic/private';
 import { json } from '@sveltejs/kit';
 import path from "path";
 import OpenAI from "openai";
+
 
 // Initialiserer OpenAI-klienten med API-nøkkelen fra miljøvariabler
 const api_key = env.OPENAI_API_KEY;
@@ -17,21 +17,22 @@ const client = new OpenAI({
     apiKey: env.OPENAI_API_KEY
 });
 
-// definerer en response_ID variabel som kan hentes og opdateres underveis for å holde styr på samtalens kontekst
+
 let response_ID = null;
 
 // Håndterer POST-forespørsler fra frontend
 /** @type {import('./$types').RequestHandler} */
 // definerer en funksjon som håndterer POST-forespørsler
+
 export async function POST(request) {
-    // prøver å hente meldingen fra forespørselen og generere et svar
+    // tries to get the message from the request and generate a response
     try {
         const { message } = await request.request.json();
-        console.log('Mottatt melding fra frontend:', message);
-        
-        // Genererer et svar ved å bruke OpenAI-klienten med fil-søk som verktøy
+        console.log('Received message from frontend:', message);
+
+
         const response = await client.responses.create({
-            model: "gpt-5.1",
+            model: "gpt-5.1-codex-max",
             instructions: instructions,
             input: [
                 {
@@ -47,26 +48,9 @@ export async function POST(request) {
             ],
             previous_response_id: response_ID
         });
-        // Oppdaterer response_ID for å holde styr på samtalens kontekst
-        response_ID = response.id;
-
-        // Logg hele responsen for feilsøking
-        console.log('OpenAI full response:', response);
-
-        // Returner kun svaret til frontend
-        return json({ response: response.output_text });
-    // håndterer eventuelle feil som oppstår under prosessen
+        return json({ response: request.output_text });
     } catch (error) {
         console.error("Error:", error);
-        if (error.response) {
-            try {
-                const errorData = await error.response.json();
-                console.error("OpenAI error response:", errorData);
-                return json({ error: errorData }, { status: 500 });
-            } catch (parseErr) {
-                console.error("Kunne ikke parse OpenAI error response", parseErr);
-            }
-        }
-        return json({ error: "Failed to generate response" }, { status: 500 });
+        return json({ error: 'Failed to process request' }, { status: 500 });
     }
 }

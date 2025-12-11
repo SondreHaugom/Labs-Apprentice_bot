@@ -4,7 +4,7 @@ import { onMount } from 'svelte';
 import { marked } from 'marked';
 
 // deklarerer globale variabler
-let chatbox, userInput, sendButton, resetButton;
+let chatbox, userInput, sendButton, resetButton, toggleMenu;
 
 // funksjon for å streame tekst
 const streamText = (element, text, speed = 2) => {
@@ -115,8 +115,7 @@ async function generateResponse(user_message) {
     createChatBubble('Skriver...', 'chat_incoming');
     // gjør et API-kall til serveren
     try {
-        // henter respons fra serveren
-        const response = await fetch('/server', {
+        const response = await fetch('/openai', {
             method: 'POST', 
             headers: {
                 'Content-Type': 'application/json'
@@ -154,12 +153,23 @@ async function generateResponse(user_message) {
     }
 }
 
+
+
 // onMount for å initialisere elementer og legge til event-lyttere
 onMount(() => {
     chatbox = document.querySelector('.chatBox');
     userInput = document.querySelector('.user_input');
     sendButton = document.querySelector('.snd_btn');
     resetButton = document.querySelector('.rst-btn');
+    toggleMenu = document.querySelector('.agent_btn');
+
+    if (toggleMenu) {
+        toggleMenu.addEventListener('change', () => {
+            const selectedAgent = toggleMenu.value;
+            console.log('Valgt agent:', selectedAgent);
+            // Her kan du legge til logikk for å bytte agent basert på valgt verdi
+        })
+    }
 
     if (resetButton) {
         resetButton.addEventListener('click', () => {
@@ -191,6 +201,12 @@ onMount(() => {
 <header>
     <div class="rst-btn_container">
         <button class="rst-btn" title="Ny samtale" type="button"><img src="/bilder/chat-notification_17178348.png" alt="Reset chat"></button>
+    </div>
+    <div class="agenst_container">
+        <select class="agent_btn" name="" id="">
+            <option value="">GPT-5.1</option>
+            <option value="">Code generation</option>
+        </select>
     </div>
     <h1>
         FagAssistenten
@@ -545,6 +561,27 @@ h1 {
             border-color: #666;
 
     }
-    
-    
+    .agenst_container {
+        position: absolute;
+        top: 75%;
+        transform: translateY(-50%);
+    }
+    .agent_btn {
+        height: 50px;
+        width: 120px;
+        border-radius: 10px;
+        border: none;
+        box-shadow:
+        0 2px 4px rgba(44, 44, 44, 0.25),
+        0 4px 10px rgba(44, 44, 44, 0.35);
+        background-color: #707575;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    .agent_btn:hover {
+        background-color: #666;
+    }
 </style>
