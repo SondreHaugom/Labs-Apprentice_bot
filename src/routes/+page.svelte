@@ -4,7 +4,13 @@ import { onMount } from 'svelte';
 import { marked } from 'marked';
 import { selectedAgent } from '$lib/agentLogic.js';
 // deklarerer globale variabler
-let chatbox, userInput, sendButton, resetButton, toggleMenu;
+let chatbox, userInput, sendButton, resetButton, toggleMenu, menu, wrapper, toggleBtn;
+let isMenuOpen = false;
+
+// Funksjon for å toggle sidemeny
+function toggleSideMenu() {
+    isMenuOpen = !isMenuOpen;
+}
 
 // funksjon for å streame tekst
 const streamText = (element, text, speed = 2) => {
@@ -142,18 +148,28 @@ onMount(() => {
 });
     </script>
 
+<div class="side_menu" class:open={isMenuOpen}>
+    <div class="menu_content">
+        <h3>Agenter</h3>
+        <div class="agenst_container">
+            <select title="Agenter" class="agent_btn" name="" id="">
+                <option class="agent_options" value="openai">GPT-5.1</option>
+                <option class="agent_options" value="syntaxAgent">Syntax agent </option>
+                <option class="agent_options" value="webSearch">Web Søk</option>
+            </select>
+        </div>
+        
+    </div>
+</div>
 
+<button class="side_menu_toggle" title="Åpne/lukk meny" on:click={toggleSideMenu}>☰</button>
+<div class="rst-btn_container">
+    <button class="rst-btn" title="Ny samtale" type="button">↻</button>
+</div>  
+
+<div class="chatbot_wrapper" class:shifted={isMenuOpen}>
 
 <header>
-    <div class="rst-btn_container">
-        <button class="rst-btn" title="Ny samtale" type="button"><img src="/bilder/chat-notification_17178348.png" alt="Reset chat"></button>
-    </div>
-    <div class="agenst_container">
-        <select title="Agenter" class="agent_btn" name="" id="">
-            <option class="agent_options" value="openai">GPT-5.1</option>
-            <option class="agent_options" value="syntaxAgent">Syntax agent </option>
-        </select>
-    </div>
     <h1>
         FagAssistenten
     </h1>
@@ -176,11 +192,73 @@ onMount(() => {
 </footer>    
 
 
+</div>
 
 
 
 
 <style>
+    .side_menu {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 220px;
+        height: 100vh;
+        border-radius: 10px;
+        border-right: 2px solid #444;
+        background: linear-gradient(135deg, #2a2a2a 0%, #1f1f1f 100%);
+        color: #fff;
+        padding: 2rem 1rem 1rem 1rem;
+        transform: translateX(-100%);
+        transition: transform 0.3s cubic-bezier(.77,.2,.05,1.0);
+        z-index: 1000;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .side_menu.open {
+        transform: translateX(0);
+    }
+
+    .menu_content h3 {
+        margin-top: 80px;
+        color: #e8e8e8;
+        font-size: 1.2rem;
+    }
+
+    .side_menu_toggle {
+        position: fixed;
+        top: 1rem;
+        left: 20px;
+        background: linear-gradient(135deg, #484848 0%, #3a3a3a 100%);
+        color: #e8e8e8;
+        border: 2px solid #555;
+        border-radius: 8px;
+        width: 50px;
+        height: 50px;
+        font-size: 18px;
+        cursor: pointer;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        transition: all 0.3s ease;
+        z-index: 1001;
+    }
+    
+    .side_menu_toggle:hover {
+        background: linear-gradient(135deg, #555 0%, #444 100%);
+        border-color: #777;
+    }
+
+    .chatbot_wrapper {
+        transition: transform 0.3s cubic-bezier(.77,.2,.05,1.0);
+        will-change: transform;
+        position: relative;
+        min-height: 100vh;
+    }
+
+    .chatbot_wrapper.shifted {
+        transform: translateX(250px);
+    }
     /* Global markdown-styling */
     :global(.bot_message h1), :global(.user_message h1) {
         color: #ffffff;
@@ -337,9 +415,9 @@ onMount(() => {
     max-height: 100%;
 }
 h1 {
-    flex: 1;
-    text-align: center;
-    margin: 1em 0;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
     font-size: 2.4em;
     font-weight: 300;
     letter-spacing: 1.5px;
@@ -476,9 +554,10 @@ h1 {
     }
     .rst-btn_container {
         position: absolute;
-        left: 20px;
-        top: 35%;
+        left: 90px;
+        top: 2.6rem;
         transform: translateY(-50%);
+        z-index: 1001;
     }
     .rst-btn {
         height: 50px;
@@ -487,7 +566,7 @@ h1 {
         border: 2px solid #555;
         background: linear-gradient(135deg, #484848 0%, #3a3a3a 100%);
         color: #e8e8e8;
-        font-size: 14px;
+        font-size: 25px;
         font-weight: 500;
         cursor: pointer;
         outline: none;
@@ -500,6 +579,7 @@ h1 {
         justify-content: center;
         cursor: pointer;
         transition: background-color 0.3s ease;
+        
     }
     
     .rst-btn:hover {
@@ -510,21 +590,9 @@ h1 {
         inset 0 1px 0 rgba(255, 255, 255, 0.15);
     }
     
-    .rst-btn img {
-        width: 40px;
-        height: 40px;
-        object-fit: contain;
-        color: white;
-        transition: transform 0.3s ease;
-    }
-    .rst-btn img:hover {
-            border-color: #666;
-
-    }
     .agenst_container {
         position: absolute;
-        top: 75%;
-        left: 25%;
+        top: 20%;
         transform: translateY(-50%);
     }
     .agent_btn {

@@ -46,7 +46,9 @@ export async function POST(request) {
                 },
                 {
                     type: "web_search"
-                }
+                },
+
+
 
             ],
             previous_response_id: response_ID
