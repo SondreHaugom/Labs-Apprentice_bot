@@ -35,8 +35,24 @@ export const selectedAgent = async (user_message, agentType) => {
         // eller fallback til choices-strukturen
             payload.choices?.[0]?.message?.content ?? '';
         return raw || 'Beklager, jeg har ingen svar.'; 
-    } else {
-        alert('Modell finnes ikke');
+
+
+        
+    } else if (agentType === 'mistral') {
+        console.log('Using Mistral agent');
+        response = await fetch('/mistral', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ message: user_message })
+        });
+        const payload = await response.json();
+
+        const raw = payload.response ??
+        // eller fallback til choices-strukturen
+            payload.choices?.[0]?.message?.content ?? '';
+        return raw || 'Beklager, jeg har ingen svar.';
     }
 }
     

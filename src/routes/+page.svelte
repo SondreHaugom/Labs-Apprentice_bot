@@ -176,7 +176,7 @@ onMount(() => {
             <select title="Agenter" class="agent_btn" name="" id="">
                 <option class="agent_options" value="openai">GPT-5.1</option>
                 <option class="agent_options" value="syntaxAgent">Syntax agent </option>
-                <option class="agent_options" value="webSearch">transkribsjon</option>
+                <option class="agent_options" value="mistral">Mistral</option>
             </select>
         </div>
         
@@ -381,13 +381,12 @@ onMount(() => {
         font-style: italic;
     }
 
-
     /* Base styling */
     :global(body) {
     margin: 0;
     padding: 0;
     height: 100%;
-
+    overflow-x: hidden;
     background-color: #2f2f2f;
 
     /* DYBDE-LAG – mye lysere, større spotlight */
