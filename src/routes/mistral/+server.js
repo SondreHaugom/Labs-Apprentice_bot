@@ -27,16 +27,13 @@ export async function POST(request) {
         conversationHistory.push({ role: 'user', content: message});
 
         const response = await client.chat.complete({
-            model: 'magistral-small-2509',
-            messages: conversationHistory
+            model: 'mistral-large-2512',
+            messages: conversationHistory,
         });
-        const assistantMessage = response.choices[0].message.content;
-        console.log('Assistant message:', assistantMessage);
-
-        conversationHistory.push({ role: 'assistant', content: assistantMessage });
-
-        return json({ response: assistantMessage});
+        conversationHistory.push({ role: 'assistant', content: response.choices[0].message.content});
+        return json({ response:  response.choices[0].message.content });
      }catch (error) {
         console.error("Error:", error);
+        return json({ error: 'An error occurred while processing your request.' }, { status: 500 });
     }
 };
