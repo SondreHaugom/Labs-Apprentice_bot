@@ -1,6 +1,5 @@
 import {env} from '$env/dynamic/private';
 import { json } from '@sveltejs/kit';
-import path from "path";
 import { Mistral } from "@mistralai/mistralai";
 
 
