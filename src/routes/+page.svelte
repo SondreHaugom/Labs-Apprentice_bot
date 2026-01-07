@@ -89,20 +89,28 @@ const streamMarkdown = (element, markdownText, speed = 5) => {
 
 //  \funksjon for å legge til samtalen i chatboksen
 const createChatBubble = (message, className, isStreaming = false) => {
+    // lager en ny listeelement for meldingen
     let chatli = document.createElement('li');
+    // gir en klasse basert på om det er en innkommende eller utgående melding
     chatli.classList.add(className);
 
+    // legger til et tomt div for meldingsinnholdet
     let content = '';
+
+    // bestemmer innholdet basert på meldingsklasse
     if (className === 'chat_incoming') {
         content = `<div class="bot_message"></div>`;
     } else {
         content = `<div class="user_message"></div>`;
     }
 
+    // setter innholdet i listeelementet
     chatli.innerHTML = content;
+    // legger til listeelementet i chatboksen
     chatbox.appendChild(chatli);
 
-
+    
+    // Rull chatboksen til bunnen for å vise ny melding
     const messageDiv = chatli.querySelector(className === 'chat_incoming' ? '.bot_message' : '.user_message');
 
     if (isStreaming && className === 'chat_incoming') {
@@ -123,11 +131,12 @@ function sendMessage() {
 
     // Hent valgt agent fra select-elementet
     const selectedAgentType = toggleMenu.value;
-    
+    // Hent respons fra valgt agent
     selectedAgent(user_message, selectedAgentType).then((bot_response) => {
         createChatBubble(bot_response, 'chat_incoming', true);
     });
-    userInput.value = '';
+    // Tøm input-feltet etter sending
+    userInput.value = '';   
 }
 
 
